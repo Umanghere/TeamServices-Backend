@@ -5,23 +5,37 @@ const cors = require('cors');
 const User = require('./models/User'); // Ensure the correct path
 const Employee = require('./models/EmployeesData'); // Ensure the correct path
 const Training = require('./models/TrainingData'); // Ensure the correct path
-const Attendance = require('./models/AttendanceData');
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",  // Local development
+  "https://your-frontend.vercel.app"  // Future deployed frontend
+];
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+}));
 app.use(express.json());
 
 // Connect to MongoDB
-// let urlLocal = 'mongodb://localhost:27017/Team-Services';         //URL to connect to database LOCALLY
-// let urlGlobal = 'mongodb+srv://umangbansalhere:umangbansalhere@teamservices.jcfta.mongodb.net/Team-Services?retryWrites=true&w=majority';         //URL to connect to database GLOBALLY
+// let urlLocal = 'mongodb://localhost:27017/Team-Services';
+// let urlGlobal = 'mongodb+srv://<username>:<password>@teamservices.jcfta.mongodb.net/Team-Services?retryWrites=true&w=majority';         //URL to connect to database GLOBALLY
 // let mongoURI = process.env.MONGO_URI;
-let onlineURL = "https://teamservices.up.railway.app/";
 
 // console.log("MONGO_URI:", process.env.MONGO_URI);
 
-mongoose.connect(onlineURL)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('Error connecting to MongoDB:', error));
 
@@ -222,7 +236,7 @@ app.delete('/trainingData/:id', async (req, res) => {
 // -------------------------------------------------------------------------
 
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });
