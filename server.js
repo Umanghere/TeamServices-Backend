@@ -16,11 +16,12 @@ app.use(express.json());
 // Connect to MongoDB
 // let urlLocal = 'mongodb://localhost:27017/Team-Services';         //URL to connect to database LOCALLY
 // let urlGlobal = 'mongodb+srv://umangbansalhere:umangbansalhere@teamservices.jcfta.mongodb.net/Team-Services?retryWrites=true&w=majority';         //URL to connect to database GLOBALLY
-let mongoURI = process.env.MONGO_URI;
+// let mongoURI = process.env.MONGO_URI;
+let onlineURL = "https://teamservices.up.railway.app/";
 
-console.log("MONGO_URI:", process.env.MONGO_URI);
+// console.log("MONGO_URI:", process.env.MONGO_URI);
 
-mongoose.connect(mongoURI)
+mongoose.connect(onlineURL)
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('Error connecting to MongoDB:', error));
 
