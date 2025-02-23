@@ -1,3 +1,95 @@
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+
+const app = express();
+
+// const allowedOrigins = [
+//   "http://localhost:5173",  // Local Development
+//   "https://team-services.vercel.app/",  // Deployed frontend
+//   "http://localhost:4173/Team-Service-UI/login"
+// ];
+
+// Middleware
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   }
+// }));
+
+// app.use(cors({
+//   origin: [
+//     "http://localhost:5173",  // Local Development
+//     "http://localhost:4173",  // Preview Build
+//     "https://team-services.vercel.app"  // Deployed frontend
+//   ],
+//   credentials: true,  // Allows cookies, authorization headers
+//   methods: ["GET", "POST", "PUT", "DELETE"],  // Allowed HTTP methods
+// }));
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",  // Local Development
+    "http://localhost:4173",  // Preview Build
+    "https://team-services.vercel.app"  // Deployed frontend
+  ],
+  credentials: true,  // Allows cookies, authorization headers
+  methods: ["GET", "POST", "PUT", "DELETE"],  // Allowed HTTP methods
+}));
+
+
+app.use(express.json());
+
+// Connect to MongoDB
+// let urlLocal = 'mongodb://localhost:27017/Team-Services';
+// let urlGlobal = 'mongodb+srv://<username>:<password>@teamservices.jcfta.mongodb.net/Team-Services?retryWrites=true&w=majority';         //URL to connect to database GLOBALLY
+// let mongoURI = process.env.MONGO_URI;
+
+// console.log("MONGO_URI:", process.env.MONGO_URI);
+
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => console.log('Connected to MongoDB'))
+  .catch(error => console.error('Error connecting to MongoDB:', error));
+
+
+  // Import Routes
+const authRoutes = require('./routes/authRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
+const employeeRoutes = require('./routes/employeesRoutes.js');
+const trainingRoutes = require('./routes/trainingRoutes.js');
+
+
+// Use Routes
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/employeesData', employeeRoutes);
+app.use('/trainingData', trainingRoutes);
+
+
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
+
+
+
+
+
+
+
+
+
+
+
+
 // // require('dotenv').config();
 // // const express = require('express');
 // // const mongoose = require('mongoose');
@@ -251,76 +343,6 @@
 // // //------------------------------------------------------------------------
 
 
-
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
-
-const app = express();
-
-// const allowedOrigins = [
-//   "http://localhost:5173",  // Local Development
-//   "https://team-services.vercel.app/",  // Deployed frontend
-//   "http://localhost:4173/Team-Service-UI/login"
-// ];
-
-// Middleware
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   }
-// }));
-
-app.use(cors({
-  origin: [
-    "http://localhost:5173",  // Local Development
-    "http://localhost:4173",  // Preview Build
-    "https://team-services.vercel.app"  // Deployed frontend
-  ],
-  credentials: true,  // Allows cookies, authorization headers
-  methods: ["GET", "POST", "PUT", "DELETE"],  // Allowed HTTP methods
-}));
-
-
-app.use(express.json());
-
-// Connect to MongoDB
-// let urlLocal = 'mongodb://localhost:27017/Team-Services';
-// let urlGlobal = 'mongodb+srv://<username>:<password>@teamservices.jcfta.mongodb.net/Team-Services?retryWrites=true&w=majority';         //URL to connect to database GLOBALLY
-// let mongoURI = process.env.MONGO_URI;
-
-// console.log("MONGO_URI:", process.env.MONGO_URI);
-
-
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log('Connected to MongoDB'))
-  .catch(error => console.error('Error connecting to MongoDB:', error));
-
-
-  // Import Routes
-const authRoutes = require('./routes/authRoutes.js');
-const userRoutes = require('./routes/userRoutes.js');
-const employeeRoutes = require('./routes/employeesRoutes.js');
-const trainingRoutes = require('./routes/trainingRoutes.js');
-
-
-// Use Routes
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/employeesData', employeeRoutes);
-app.use('/trainingData', trainingRoutes);
-
-
-const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
 
 
 
