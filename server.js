@@ -306,10 +306,10 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
   // Import Routes
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-const employeeRoutes = require('./routes/employeeRoutes');
-const trainingRoutes = require('./routes/trainingRoutes');
+const authRoutes = require('./routes/authRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
+const employeeRoutes = require('./routes/employeeRoutes.js');
+const trainingRoutes = require('./routes/trainingRoutes.js');
 
 
 // Use Routes
