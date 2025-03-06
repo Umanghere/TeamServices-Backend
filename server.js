@@ -84,7 +84,8 @@ app.use(cors({
   origin: [
     "http://localhost:5173",  // Local Development
     "http://localhost:4173",  // Preview Build
-    "https://team-services.vercel.app"  // Deployed frontend
+    "https://team-services.vercel.app",  // Deployed frontend
+    "https://team-service-71wh.vercel.app"
   ],
   credentials: true,  // Allows cookies, authorization headers
   methods: ["GET", "POST", "PUT", "DELETE"],  // Allowed HTTP methods
